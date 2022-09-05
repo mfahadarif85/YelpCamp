@@ -8,6 +8,7 @@
       method="POST"
       class="needs-validation"
       novalidate
+      enctype="multipart/form-data"
     >
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
@@ -31,7 +32,9 @@
         />
         <div class="valid-feedback">Looks good!</div>
       </div>
-      <div class="mb-3">
+
+      <!-- <input type="file" name="image" id="" multiple /> -->
+      <!-- <div class="mb-3">
         <label for="image" class="form-label">Image URL</label>
         <input
           type="text"
@@ -41,7 +44,7 @@
           required
         />
         <div class="valid-feedback">Looks good!</div>
-      </div>
+      </div> -->
       <div class="mb-3">
         <label for="price" class="form-label">Campground Price</label>
         <div class="input-group mb-3">
@@ -68,6 +71,20 @@
           required
         ></textarea>
         <div class="valid-feedback">Looks good!</div>
+      </div>
+      <div class="mb-3">
+        <div class="custom-file">
+          <label for="image" class="form-label custom-file-label">
+            Add image(s)
+          </label>
+          <input
+            class="form-control"
+            type="file"
+            id="image"
+            name="image"
+            multiple
+          />
+        </div>
       </div>
       <div class="mb-3">
         <button class="btn btn-success">Add Campground</button>
