@@ -45,7 +45,7 @@ module.exports.showCampground = async (req, res) => {
     req.flash("error", "Cannot find that campground!");
     return res.redirect("/campgrounds");
   }
-  console.log(campground);
+
   res.render("campgrounds/show", { campground });
 };
 
@@ -60,7 +60,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateCampground = async (req, res) => {
   const { id } = req.params;
-  console.log(req.body);
+
   const campground = await Campground.findByIdAndUpdate(id, {
     ...req.body.campground,
   });
