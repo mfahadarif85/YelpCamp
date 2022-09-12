@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 
 const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo");
 
 const flash = require("connect-flash");
 const passport = require("passport");
@@ -26,7 +26,6 @@ const reviewsRoutes = require("./routes/reviews");
 
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp";
 
-// "mongodb://localhost:27017/yelp-camp"
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   // useCreateIndex: true,
@@ -41,11 +40,16 @@ db.once("open", () => {
 
 const app = express();
 
+// parse application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(express.json());
+
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
@@ -106,14 +110,16 @@ app.use(
 
 const secret = process.env.SECRET || "thisshouldbeabettersecret!";
 
-const store = new MongoStore({
-  url: dbUrl,
-  secret,
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
   touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret,
+  },
 });
 
 store.on("error", function (e) {
-  console.log("SESSION STORE ERROR");
+  console.log("Session Error", e);
 });
 
 const sessionConfig = {
